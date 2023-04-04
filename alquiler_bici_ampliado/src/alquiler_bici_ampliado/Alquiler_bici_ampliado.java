@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 /**
  * Clase principal, contiene todos los elementos funcionales del programa.
@@ -163,6 +164,18 @@ public class Alquiler_bici_ampliado {
 		lblUsuarios.setBounds(641, 13, 156, 33);
 		frame.getContentPane().add(lblUsuarios);
 
+		JLabel lblCodigoUsuarioEliminar = new JLabel("Código usuario:");
+		lblCodigoUsuarioEliminar.setForeground(Color.BLACK);
+		lblCodigoUsuarioEliminar.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblCodigoUsuarioEliminar.setBounds(692, 418, 141, 15);
+		frame.getContentPane().add(lblCodigoUsuarioEliminar);
+
+		JLabel lblCodigoEliminarBici = new JLabel("Código bici:");
+		lblCodigoEliminarBici.setForeground(Color.BLACK);
+		lblCodigoEliminarBici.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblCodigoEliminarBici.setBounds(693, 478, 100, 15);
+		frame.getContentPane().add(lblCodigoEliminarBici);
+
 		JComboBox comboBoxCodigoAlquilarBici = new JComboBox();
 		comboBoxCodigoAlquilarBici.setBounds(366, 389, 73, 18);
 		frame.getContentPane().add(comboBoxCodigoAlquilarBici);
@@ -198,7 +211,7 @@ public class Alquiler_bici_ampliado {
 			Connection con = ConnectionSingleton.getConnection();
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici)");
+					"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici) AND id_usuario <> 0");
 
 			comboBoxCodigoUsuarioAlquilarBici.removeAllItems();
 
@@ -233,6 +246,44 @@ public class Alquiler_bici_ampliado {
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+
+		JComboBox comboBoxEliminarUsuario = new JComboBox();
+		comboBoxEliminarUsuario.setBounds(829, 418, 73, 18);
+		frame.getContentPane().add(comboBoxEliminarUsuario);
+
+		try {
+			Connection con = ConnectionSingleton.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
+
+			while (rs.next()) {
+				comboBoxEliminarUsuario.addItem(rs.getInt("id_usuario"));
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+		}
+
+		JComboBox comboBoxEliminarBici = new JComboBox();
+		comboBoxEliminarBici.setBounds(829, 475, 73, 18);
+		frame.getContentPane().add(comboBoxEliminarBici);
+		
+		try {
+			Connection con = ConnectionSingleton.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario <> 0");
+
+			while (rs.next()) {
+				comboBoxEliminarBici.addItem(rs.getInt("id_bici"));
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e3) {
+			e3.printStackTrace();
 		}
 
 		/**
@@ -340,7 +391,7 @@ public class Alquiler_bici_ampliado {
 					try {
 						Statement stmt = con.createStatement();
 						ResultSet rs = stmt.executeQuery(
-								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici)");
+								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici) AND id_usuario <> 0");
 
 						comboBoxCodigoUsuarioAlquilarBici.removeAllItems();
 
@@ -349,13 +400,26 @@ public class Alquiler_bici_ampliado {
 						}
 
 						rs.close();
-						stmt.close();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 
 					txtCdigoAñadirUsuario.setText("");
 					txtNombreAñadirUsuario.setText("");
+
+					try {
+						Statement stmt = con.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
+
+						while (rs.next()) {
+							comboBoxEliminarUsuario.addItem(rs.getInt("id_usuario"));
+						}
+
+						rs.close();
+						stmt.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
+					}
 
 					JOptionPane.showMessageDialog(null, "Usuario añadido correctamente ◕‿◕", "Info",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -416,7 +480,7 @@ public class Alquiler_bici_ampliado {
 					try {
 						Statement stmt = con.createStatement();
 						ResultSet rs = stmt.executeQuery(
-								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici)");
+								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici) AND id_usuario <> 0");
 
 						comboBoxCodigoUsuarioAlquilarBici.removeAllItems();
 
@@ -425,11 +489,24 @@ public class Alquiler_bici_ampliado {
 						}
 
 						rs.close();
-						stmt.close();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 					txtCodigoAñadirBici.setText("");
+
+					try {
+						Statement stmt = con.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario <> 0");
+
+						while (rs.next()) {
+							comboBoxEliminarBici.addItem(rs.getInt("id_bici"));
+						}
+
+						rs.close();
+						stmt.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
+					}
 
 					JOptionPane.showMessageDialog(null, "Bici añadida correctamente ◕‿◕", "Info",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -485,7 +562,7 @@ public class Alquiler_bici_ampliado {
 
 					try {
 						ResultSet rs = stmt.executeQuery(
-								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici)");
+								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici) AND id_usuario <> 0");
 
 						comboBoxCodigoUsuarioAlquilarBici.removeAllItems();
 
@@ -548,7 +625,7 @@ public class Alquiler_bici_ampliado {
 
 					try {
 						ResultSet rs = stmt.executeQuery(
-								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici)");
+								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici) AND id_usuario <> 0");
 
 						comboBoxCodigoUsuarioAlquilarBici.removeAllItems();
 
@@ -605,5 +682,121 @@ public class Alquiler_bici_ampliado {
 		btnDevolverBici.setBackground(UIManager.getColor("Button.darkShadow"));
 		btnDevolverBici.setBounds(12, 454, 210, 60);
 		frame.getContentPane().add(btnDevolverBici);
+
+		JButton btnEliminarUsuario = new JButton("Eliminar Usuario");
+		btnEliminarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					Connection con = ConnectionSingleton.getConnection();
+					Statement stmt = con.createStatement();
+					PreparedStatement upd_pstmt = con.prepareStatement("DELETE FROM usuario WHERE id_usuario = ?");
+
+					upd_pstmt.setInt(1, (int) comboBoxEliminarUsuario.getSelectedItem());
+
+					upd_pstmt.executeUpdate();
+
+					try {
+						ResultSet rs = stmt.executeQuery(
+								"SELECT id_usuario FROM usuario WHERE id_usuario NOT IN (SELECT cod_usuario FROM bici) AND id_usuario <> 0");
+
+						comboBoxCodigoUsuarioAlquilarBici.removeAllItems();
+
+						while (rs.next()) {
+							comboBoxCodigoUsuarioAlquilarBici.addItem(rs.getInt("id_usuario"));
+						}
+
+						rs.close();
+					} catch (SQLException e2) {
+						e2.printStackTrace();
+					}
+
+					try {
+						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
+
+						comboBoxEliminarUsuario.removeAllItems();
+
+						while (rs.next()) {
+							comboBoxEliminarUsuario.addItem(rs.getInt("id_usuario"));
+						}
+
+						rs.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
+					}
+
+					btnMostrarUsuario.doClick();
+					stmt.close();
+					JOptionPane.showMessageDialog(null, "Usuario eliminado corrctamente ◕‿◕", "Info",
+							JOptionPane.INFORMATION_MESSAGE);
+
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "No se puede eliminar un usuario con una bici alquilada",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		btnEliminarUsuario.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnEliminarUsuario.setBackground(SystemColor.menu);
+		btnEliminarUsuario.setBounds(475, 390, 210, 60);
+		frame.getContentPane().add(btnEliminarUsuario);
+
+		JButton btnEliminarBici = new JButton("Eliminar Bici");
+		btnEliminarBici.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					Connection con = ConnectionSingleton.getConnection();
+					Statement stmt = con.createStatement();
+					PreparedStatement upd_pstmt = con.prepareStatement("DELETE FROM bici WHERE id_bici = ?");
+					
+					upd_pstmt.setInt(1, (int) comboBoxEliminarBici.getSelectedItem());
+
+					upd_pstmt.executeUpdate();
+					
+					try {
+						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario <> 0");
+
+						comboBoxEliminarUsuario.removeAllItems();
+
+						while (rs.next()) {
+							comboBoxEliminarUsuario.addItem(rs.getInt("id_bici"));
+						}
+
+						rs.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
+					}
+					
+					try {
+						ResultSet rs = stmt.executeQuery("SELECT cod_usuario FROM bici WHERE cod_usuario <> 0");
+
+						comboBoxDevolverBici.removeAllItems();
+						
+						while (rs.next()) {
+							comboBoxDevolverBici.addItem(rs.getInt("cod_usuario"));
+						}
+
+						rs.close();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					
+					btnMostrarBici.doClick();
+					stmt.close();
+					JOptionPane.showMessageDialog(null, "Bici eliminada corrctamente ◕‿◕", "Info",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "No se puede eliminar una bici alquilada",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+					
+			}
+		});
+		btnEliminarBici.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnEliminarBici.setBackground(SystemColor.menu);
+		btnEliminarBici.setBounds(475, 454, 210, 60);
+		frame.getContentPane().add(btnEliminarBici);
 	}
 }

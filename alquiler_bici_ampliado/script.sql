@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS alquiler_bici;
+DROP DATABASE IF EXISTS alquiler_bici_ampliado;
 
-CREATE DATABASE IF NOT EXISTS alquiler_bici;
+CREATE DATABASE IF NOT EXISTS alquiler_bici_ampliado;
 
-USE alquiler_bici;
+USE alquiler_bici_ampliado;
 
 CREATE TABLE usuario (
 id_usuario INT PRIMARY KEY NOT NULL,
