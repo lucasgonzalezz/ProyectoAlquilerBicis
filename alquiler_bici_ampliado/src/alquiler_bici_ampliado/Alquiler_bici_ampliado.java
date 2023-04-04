@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.EmptyStackException;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,6 +23,9 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.UIManager;
 import java.awt.SystemColor;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 /**
  * Clase principal, contiene todos los elementos funcionales del programa.
@@ -73,7 +75,7 @@ public class Alquiler_bici_ampliado {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(51, 153, 204));
-		frame.setBounds(100, 100, 928, 563);
+		frame.setBounds(100, 100, 993, 678);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -167,13 +169,13 @@ public class Alquiler_bici_ampliado {
 		JLabel lblCodigoUsuarioEliminar = new JLabel("Código usuario:");
 		lblCodigoUsuarioEliminar.setForeground(Color.BLACK);
 		lblCodigoUsuarioEliminar.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblCodigoUsuarioEliminar.setBounds(692, 418, 141, 15);
+		lblCodigoUsuarioEliminar.setBounds(692, 410, 141, 15);
 		frame.getContentPane().add(lblCodigoUsuarioEliminar);
 
 		JLabel lblCodigoEliminarBici = new JLabel("Código bici:");
 		lblCodigoEliminarBici.setForeground(Color.BLACK);
 		lblCodigoEliminarBici.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblCodigoEliminarBici.setBounds(693, 478, 100, 15);
+		lblCodigoEliminarBici.setBounds(230, 548, 100, 15);
 		frame.getContentPane().add(lblCodigoEliminarBici);
 
 		JComboBox comboBoxCodigoAlquilarBici = new JComboBox();
@@ -249,7 +251,7 @@ public class Alquiler_bici_ampliado {
 		}
 
 		JComboBox comboBoxEliminarUsuario = new JComboBox();
-		comboBoxEliminarUsuario.setBounds(829, 418, 73, 18);
+		comboBoxEliminarUsuario.setBounds(827, 410, 73, 18);
 		frame.getContentPane().add(comboBoxEliminarUsuario);
 
 		try {
@@ -268,9 +270,9 @@ public class Alquiler_bici_ampliado {
 		}
 
 		JComboBox comboBoxEliminarBici = new JComboBox();
-		comboBoxEliminarBici.setBounds(829, 475, 73, 18);
+		comboBoxEliminarBici.setBounds(366, 548, 73, 18);
 		frame.getContentPane().add(comboBoxEliminarBici);
-		
+
 		try {
 			Connection con = ConnectionSingleton.getConnection();
 			Statement stmt = con.createStatement();
@@ -683,7 +685,8 @@ public class Alquiler_bici_ampliado {
 		btnDevolverBici.setBounds(12, 454, 210, 60);
 		frame.getContentPane().add(btnDevolverBici);
 
-		JButton btnEliminarUsuario = new JButton("Eliminar Usuario");
+		JButton btnEliminarUsuario = new JButton(" Eliminar Usuario");
+		btnEliminarUsuario.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/eliminarUsuario.png")));
 		btnEliminarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -738,23 +741,24 @@ public class Alquiler_bici_ampliado {
 			}
 		});
 		btnEliminarUsuario.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnEliminarUsuario.setBackground(SystemColor.menu);
+		btnEliminarUsuario.setBackground(UIManager.getColor("Button.darkShadow"));
 		btnEliminarUsuario.setBounds(475, 390, 210, 60);
 		frame.getContentPane().add(btnEliminarUsuario);
 
-		JButton btnEliminarBici = new JButton("Eliminar Bici");
+		JButton btnEliminarBici = new JButton(" Eliminar Bici");
+		btnEliminarBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/eliminarBici.png")));
 		btnEliminarBici.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				try {
 					Connection con = ConnectionSingleton.getConnection();
 					Statement stmt = con.createStatement();
 					PreparedStatement upd_pstmt = con.prepareStatement("DELETE FROM bici WHERE id_bici = ?");
-					
+
 					upd_pstmt.setInt(1, (int) comboBoxEliminarBici.getSelectedItem());
 
 					upd_pstmt.executeUpdate();
-					
+
 					try {
 						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario <> 0");
 
@@ -768,12 +772,12 @@ public class Alquiler_bici_ampliado {
 					} catch (SQLException e3) {
 						e3.printStackTrace();
 					}
-					
+
 					try {
 						ResultSet rs = stmt.executeQuery("SELECT cod_usuario FROM bici WHERE cod_usuario <> 0");
 
 						comboBoxDevolverBici.removeAllItems();
-						
+
 						while (rs.next()) {
 							comboBoxDevolverBici.addItem(rs.getInt("cod_usuario"));
 						}
@@ -782,21 +786,51 @@ public class Alquiler_bici_ampliado {
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
-					
+
 					btnMostrarBici.doClick();
 					stmt.close();
 					JOptionPane.showMessageDialog(null, "Bici eliminada corrctamente ◕‿◕", "Info",
 							JOptionPane.INFORMATION_MESSAGE);
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "No se puede eliminar una bici alquilada",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se puede eliminar una bici alquilada", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
-					
+
 			}
 		});
 		btnEliminarBici.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnEliminarBici.setBackground(SystemColor.menu);
-		btnEliminarBici.setBounds(475, 454, 210, 60);
+		btnEliminarBici.setBackground(UIManager.getColor("Button.darkShadow"));
+		btnEliminarBici.setBounds(12, 525, 210, 60);
 		frame.getContentPane().add(btnEliminarBici);
+
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+
+		JMenu mnOpciones = new JMenu("Opciones");
+		mnOpciones.setFont(new Font("Dialog", Font.BOLD, 14));
+		menuBar.add(mnOpciones);
+
+		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+
+		JMenu mnTamañoLetra = new JMenu("Tamaño Letra");
+		mnOpciones.add(mnTamañoLetra);
+
+		JMenuItem mntm110 = new JMenuItem("110%");
+		mntm110.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Font font = lblCodigoAñadirBici.getFont();
+				float size = font.getSize() + 1.0f;
+				lblCodigoAñadirBici.setFont(font.deriveFont(size));
+			}
+		});
+		mnTamañoLetra.add(mntm110);
+		mntmSalir.setForeground(new Color(255, 0, 0));
+		mntmSalir.setFont(new Font("Dialog", Font.BOLD, 14));
+		mnOpciones.add(mntmSalir);
 	}
 }
