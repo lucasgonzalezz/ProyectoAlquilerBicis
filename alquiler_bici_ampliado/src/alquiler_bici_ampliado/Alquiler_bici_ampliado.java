@@ -55,6 +55,7 @@ public class Alquiler_bici_ampliado {
 	private JTextField txtCodigoAñadirBici;
 	private JTextField txtNombreAñadirUsuario;
 	private JTextField txtCdigoAñadirUsuario;
+	private JTextField txtNuevoNombre;
 
 	/**
 	 * Launch the application.
@@ -98,18 +99,18 @@ public class Alquiler_bici_ampliado {
 
 		txtNombreAñadirUsuario = new JTextField();
 		txtNombreAñadirUsuario.setColumns(10);
-		txtNombreAñadirUsuario.setBounds(948, 346, 65, 24);
+		txtNombreAñadirUsuario.setBounds(948, 352, 65, 18);
 		frmBikeRenting.getContentPane().add(txtNombreAñadirUsuario);
 
 		txtCdigoAñadirUsuario = new JTextField();
 		txtCdigoAñadirUsuario.setColumns(10);
-		txtCdigoAñadirUsuario.setBounds(948, 316, 65, 24);
+		txtCdigoAñadirUsuario.setBounds(948, 324, 65, 18);
 		frmBikeRenting.getContentPane().add(txtCdigoAñadirUsuario);
 
 		JLabel lblCodigoAñadirBici = new JLabel("Código bici:");
 		lblCodigoAñadirBici.setForeground(new Color(0, 0, 0));
 		lblCodigoAñadirBici.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblCodigoAñadirBici.setBounds(287, 323, 100, 38);
+		lblCodigoAñadirBici.setBounds(287, 324, 100, 38);
 		frmBikeRenting.getContentPane().add(lblCodigoAñadirBici);
 
 		txtCodigoAñadirBici = new JTextField();
@@ -132,13 +133,13 @@ public class Alquiler_bici_ampliado {
 		JLabel lblCodigoAlquilarBici = new JLabel("Código usuario:");
 		lblCodigoAlquilarBici.setForeground(new Color(0, 0, 0));
 		lblCodigoAlquilarBici.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblCodigoAlquilarBici.setBounds(287, 464, 141, 39);
+		lblCodigoAlquilarBici.setBounds(287, 463, 141, 39);
 		frmBikeRenting.getContentPane().add(lblCodigoAlquilarBici);
 
 		JLabel lblCodigoUsuario = new JLabel("Código usuario:");
 		lblCodigoUsuario.setForeground(new Color(0, 0, 0));
 		lblCodigoUsuario.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblCodigoUsuario.setBounds(803, 319, 141, 21);
+		lblCodigoUsuario.setBounds(803, 323, 141, 21);
 		frmBikeRenting.getContentPane().add(lblCodigoUsuario);
 
 		JLabel lblNombreUsuario = new JLabel("Nombre usuario:");
@@ -188,7 +189,7 @@ public class Alquiler_bici_ampliado {
 		JLabel lblCodigoUsuarioEliminar = new JLabel("Código usuario:");
 		lblCodigoUsuarioEliminar.setForeground(Color.BLACK);
 		lblCodigoUsuarioEliminar.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblCodigoUsuarioEliminar.setBounds(803, 409, 141, 26);
+		lblCodigoUsuarioEliminar.setBounds(803, 400, 141, 26);
 		frmBikeRenting.getContentPane().add(lblCodigoUsuarioEliminar);
 
 		JLabel lblCodigoEliminarBici = new JLabel("Código bici:");
@@ -196,6 +197,23 @@ public class Alquiler_bici_ampliado {
 		lblCodigoEliminarBici.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblCodigoEliminarBici.setBounds(287, 540, 100, 37);
 		frmBikeRenting.getContentPane().add(lblCodigoEliminarBici);
+
+		JLabel lblCodigoUsuarioCambiarNombre = new JLabel("Código usuario:");
+		lblCodigoUsuarioCambiarNombre.setForeground(Color.BLACK);
+		lblCodigoUsuarioCambiarNombre.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblCodigoUsuarioCambiarNombre.setBounds(803, 459, 141, 26);
+		frmBikeRenting.getContentPane().add(lblCodigoUsuarioCambiarNombre);
+
+		JLabel lblNuevoNombreUsuario = new JLabel("Nombre usuario:");
+		lblNuevoNombreUsuario.setForeground(Color.BLACK);
+		lblNuevoNombreUsuario.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblNuevoNombreUsuario.setBounds(803, 491, 141, 24);
+		frmBikeRenting.getContentPane().add(lblNuevoNombreUsuario);
+
+		txtNuevoNombre = new JTextField();
+		txtNuevoNombre.setColumns(10);
+		txtNuevoNombre.setBounds(948, 494, 65, 18);
+		frmBikeRenting.getContentPane().add(txtNuevoNombre);
 
 		JComboBox comboBoxCodigoAlquilarBici = new JComboBox();
 		comboBoxCodigoAlquilarBici.setBounds(423, 390, 73, 18);
@@ -247,7 +265,7 @@ public class Alquiler_bici_ampliado {
 		}
 
 		JComboBox comboBoxDevolverBici = new JComboBox();
-		comboBoxDevolverBici.setBounds(423, 473, 73, 21);
+		comboBoxDevolverBici.setBounds(423, 472, 73, 21);
 		frmBikeRenting.getContentPane().add(comboBoxDevolverBici);
 
 		/**
@@ -270,7 +288,7 @@ public class Alquiler_bici_ampliado {
 		}
 
 		JComboBox comboBoxEliminarUsuario = new JComboBox();
-		comboBoxEliminarUsuario.setBounds(938, 413, 73, 18);
+		comboBoxEliminarUsuario.setBounds(948, 404, 65, 18);
 		frmBikeRenting.getContentPane().add(comboBoxEliminarUsuario);
 
 		try {
@@ -295,10 +313,29 @@ public class Alquiler_bici_ampliado {
 		try {
 			Connection con = ConnectionSingleton.getConnection();
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario <> 0");
+			ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario = 0");
 
 			while (rs.next()) {
 				comboBoxEliminarBici.addItem(rs.getInt("id_bici"));
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+		}
+
+		JComboBox comboBoxCambiarNombre = new JComboBox();
+		comboBoxCambiarNombre.setBounds(948, 463, 65, 18);
+		frmBikeRenting.getContentPane().add(comboBoxCambiarNombre);
+
+		try {
+			Connection con = ConnectionSingleton.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
+
+			while (rs.next()) {
+				comboBoxCambiarNombre.addItem(rs.getInt("id_usuario"));
 			}
 
 			rs.close();
@@ -436,8 +473,25 @@ public class Alquiler_bici_ampliado {
 						Statement stmt = con.createStatement();
 						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
 
+						comboBoxEliminarUsuario.removeAllItems();
+						
 						while (rs.next()) {
 							comboBoxEliminarUsuario.addItem(rs.getInt("id_usuario"));
+						}
+						
+						rs.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
+					}
+
+					try {
+						Statement stmt = con.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
+
+						comboBoxCambiarNombre.removeAllItems();
+						
+						while (rs.next()) {
+							comboBoxCambiarNombre.addItem(rs.getInt("id_usuario"));
 						}
 
 						rs.close();
@@ -445,7 +499,7 @@ public class Alquiler_bici_ampliado {
 					} catch (SQLException e3) {
 						e3.printStackTrace();
 					}
-
+					
 					JOptionPane.showMessageDialog(null, "Usuario añadido correctamente ◕‿◕", "Info",
 							JOptionPane.INFORMATION_MESSAGE);
 
@@ -453,7 +507,8 @@ public class Alquiler_bici_ampliado {
 					JOptionPane.showMessageDialog(null, "No se puede añadir el usuario, 'Código' repetido!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "El campo es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Campo rellando incorrectamente o esta vacío", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -523,7 +578,9 @@ public class Alquiler_bici_ampliado {
 
 					try {
 						Statement stmt = con.createStatement();
-						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario <> 0");
+						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario = 0");
+
+						comboBoxEliminarBici.removeAllItems();
 
 						while (rs.next()) {
 							comboBoxEliminarBici.addItem(rs.getInt("id_bici"));
@@ -542,16 +599,17 @@ public class Alquiler_bici_ampliado {
 					JOptionPane.showMessageDialog(null, "No se puede añadir la bici, 'Código' repetido!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "El campo es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Campo rellando incorrectamente o esta vacío", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
 		});
 		btnAñadirBici.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
-		btnAñadirBici.setBounds(69, 315, 210, 60);
+		btnAñadirBici.setBounds(69, 313, 210, 60);
 		frmBikeRenting.getContentPane().add(btnAñadirBici);
 
-		btnAñadirBici.setMnemonic(KeyEvent.VK_D);
+		btnAñadirBici.setMnemonic(KeyEvent.VK_I);
 
 		/**
 		 * Este botón permite alquilar una bici, asociar el código de una bici con el de
@@ -614,9 +672,22 @@ public class Alquiler_bici_ampliado {
 						}
 
 						rs.close();
-						stmt.close();
 					} catch (SQLException e) {
 						e.printStackTrace();
+					}
+
+					try {
+						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario = 0");
+
+						comboBoxEliminarBici.removeAllItems();
+
+						while (rs.next()) {
+							comboBoxEliminarBici.addItem(rs.getInt("id_bici"));
+						}
+
+						rs.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
 					}
 
 					btnMostrarBici.doClick();
@@ -625,6 +696,9 @@ public class Alquiler_bici_ampliado {
 							JOptionPane.INFORMATION_MESSAGE);
 				} catch (SQLException e) {
 					JOptionPane.showMessageDialog(null, "No se puede alquilar la bici", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(null, "No quedan bicis o usuarios para alquilar", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -693,17 +767,32 @@ public class Alquiler_bici_ampliado {
 						}
 
 						rs.close();
-						stmt.close();
 					} catch (SQLException e2) {
 						e2.printStackTrace();
 					}
 
+					try {
+						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario = 0");
+
+						comboBoxEliminarBici.removeAllItems();
+
+						while (rs.next()) {
+							comboBoxEliminarBici.addItem(rs.getInt("id_bici"));
+						}
+
+						rs.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
+					}
+
 					btnMostrarBici.doClick();
 					stmt.close();
-					JOptionPane.showMessageDialog(null, "Bici devuelta correctamente ◕‿◕", "Info",
-							JOptionPane.INFORMATION_MESSAGE);
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "No se puede devolver la bici", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} catch (NullPointerException e2) {
+					JOptionPane.showMessageDialog(null, "No quedan bicis para devolver", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -714,7 +803,7 @@ public class Alquiler_bici_ampliado {
 		btnDevolverBici.setBounds(69, 455, 210, 60);
 		frmBikeRenting.getContentPane().add(btnDevolverBici);
 
-		btnDevolverBici.setMnemonic(KeyEvent.VK_D);
+		btnDevolverBici.setMnemonic(KeyEvent.VK_R);
 
 		JButton btnEliminarUsuario = new JButton(" Eliminar Usuario");
 		btnEliminarUsuario.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/eliminarUsuario.png")));
@@ -759,6 +848,21 @@ public class Alquiler_bici_ampliado {
 						e3.printStackTrace();
 					}
 
+					try {
+						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
+
+						comboBoxCambiarNombre.removeAllItems();
+						
+						while (rs.next()) {
+							comboBoxCambiarNombre.addItem(rs.getInt("id_usuario"));
+						}
+
+						rs.close();
+						stmt.close();
+					} catch (SQLException e3) {
+						e3.printStackTrace();
+					}
+					
 					btnMostrarUsuario.doClick();
 					stmt.close();
 					JOptionPane.showMessageDialog(null, "Usuario eliminado corrctamente ◕‿◕", "Info",
@@ -773,7 +877,7 @@ public class Alquiler_bici_ampliado {
 		});
 		btnEliminarUsuario.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnEliminarUsuario.setBackground(UIManager.getColor("Button.darkShadow"));
-		btnEliminarUsuario.setBounds(586, 389, 210, 60);
+		btnEliminarUsuario.setBounds(586, 383, 210, 60);
 		frmBikeRenting.getContentPane().add(btnEliminarUsuario);
 
 		btnEliminarUsuario.setMnemonic(KeyEvent.VK_E);
@@ -793,12 +897,12 @@ public class Alquiler_bici_ampliado {
 					upd_pstmt.executeUpdate();
 
 					try {
-						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario <> 0");
+						ResultSet rs = stmt.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario = 0");
 
-						comboBoxEliminarUsuario.removeAllItems();
+						comboBoxEliminarBici.removeAllItems();
 
 						while (rs.next()) {
-							comboBoxEliminarUsuario.addItem(rs.getInt("id_bici"));
+							comboBoxEliminarBici.addItem(rs.getInt("id_bici"));
 						}
 
 						rs.close();
@@ -820,6 +924,21 @@ public class Alquiler_bici_ampliado {
 						e1.printStackTrace();
 					}
 
+					try {
+						ResultSet rs = stmt
+								.executeQuery("SELECT id_bici FROM bici WHERE cod_usuario = 0 ORDER BY id_bici");
+
+						comboBoxCodigoAlquilarBici.removeAllItems();
+
+						while (rs.next()) {
+							comboBoxCodigoAlquilarBici.addItem(rs.getInt("id_bici"));
+						}
+
+						rs.close();
+					} catch (SQLException e4) {
+						e4.printStackTrace();
+					}
+
 					btnMostrarBici.doClick();
 					stmt.close();
 					JOptionPane.showMessageDialog(null, "Bici eliminada corrctamente ◕‿◕", "Info",
@@ -838,10 +957,48 @@ public class Alquiler_bici_ampliado {
 
 		btnEliminarBici.setMnemonic(KeyEvent.VK_M);
 
+		JButton btnCambiarNombre = new JButton(" Cambiar Nombre");
+		btnCambiarNombre.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/cambiarNombre.png")));
+		btnCambiarNombre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					Connection con = ConnectionSingleton.getConnection();
+					Statement stmt = con.createStatement();
+					PreparedStatement upd_pstmt = con.prepareStatement("UPDATE usuario SET nombre = ? WHERE id_usuario = ?");
+
+					String nombre = txtNuevoNombre.getText();
+					
+					upd_pstmt.setString(1, nombre);
+					upd_pstmt.setInt(2, (int) comboBoxCambiarNombre.getSelectedItem());
+
+					upd_pstmt.executeUpdate();	
+					btnMostrarUsuario.doClick();
+					
+					stmt.close();
+					JOptionPane.showMessageDialog(null, "Nombre actualizado correctamente ◕‿◕", "Info",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (SQLException e3) {
+					JOptionPane.showMessageDialog(null, "No se puede cambiar el nombre", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+				txtNuevoNombre.setText("");
+
+			}
+		});
+		btnCambiarNombre.setMnemonic(KeyEvent.VK_C);
+		btnCambiarNombre.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnCambiarNombre.setBackground(UIManager.getColor("Button.darkShadow"));
+		btnCambiarNombre.setBounds(586, 455, 210, 60);
+		frmBikeRenting.getContentPane().add(btnCambiarNombre);
+
 		JButton buttonInfoAñadirBici = new JButton("");
+		buttonInfoAñadirBici.setOpaque(false);
+		buttonInfoAñadirBici.setBackground(new Color(0, 0, 0));
 		buttonInfoAñadirBici.setBorder(null);
 		buttonInfoAñadirBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoAñadirBici.setBounds(23, 316, 34, 33);
+		buttonInfoAñadirBici.setBounds(35, 313, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoAñadirBici);
 		buttonInfoAñadirBici.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -857,15 +1014,17 @@ public class Alquiler_bici_ampliado {
 		});
 
 		JButton buttonInfoAlquilarBici = new JButton("");
+		buttonInfoAlquilarBici.setOpaque(false);
+		buttonInfoAlquilarBici.setBackground(new Color(0, 0, 0));
 		buttonInfoAlquilarBici.setBorder(null);
 		buttonInfoAlquilarBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoAlquilarBici.setBounds(23, 387, 34, 33);
+		buttonInfoAlquilarBici.setBounds(35, 384, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoAlquilarBici);
 		buttonInfoAlquilarBici.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
-				helpDialog.setSize(400, 300);
+				helpDialog.setSize(400, 200);
 				JLabel helpLabel = new JLabel(
 						"<html><body><p style=\"text-align:center;\">Este botón permite alquilar una nueva bici.<p> <br> <p style=\"text-align:center;\" >Es necesario indicar el código de la bici y el del usuario que la ocupará.<p><body><html>");
 				helpDialog.getContentPane().add(helpLabel);
@@ -875,15 +1034,17 @@ public class Alquiler_bici_ampliado {
 		});
 
 		JButton buttonInfoDevolverBici = new JButton("");
+		buttonInfoDevolverBici.setOpaque(false);
+		buttonInfoDevolverBici.setBackground(new Color(0, 0, 0));
 		buttonInfoDevolverBici.setBorder(null);
 		buttonInfoDevolverBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoDevolverBici.setBounds(23, 455, 34, 33);
+		buttonInfoDevolverBici.setBounds(35, 452, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoDevolverBici);
 		buttonInfoDevolverBici.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
-				helpDialog.setSize(400, 300);
+				helpDialog.setSize(400, 200);
 				JLabel helpLabel = new JLabel(
 						"<html><body><p style=\"text-align:center;\">Este botón permite devolver una bici.<p> <br> <p style=\"text-align:center;\" >Es necesario indicar el código del usuario que la tiene alquilada.<p><body><html>");
 				helpDialog.getContentPane().add(helpLabel);
@@ -893,15 +1054,17 @@ public class Alquiler_bici_ampliado {
 		});
 
 		JButton buttonInfoEliminarBici = new JButton("");
+		buttonInfoEliminarBici.setOpaque(false);
+		buttonInfoEliminarBici.setBackground(new Color(0, 0, 0));
 		buttonInfoEliminarBici.setBorder(null);
 		buttonInfoEliminarBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoEliminarBici.setBounds(23, 526, 34, 33);
+		buttonInfoEliminarBici.setBounds(35, 523, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoEliminarBici);
 		buttonInfoEliminarBici.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
-				helpDialog.setSize(400, 300);
+				helpDialog.setSize(400, 200);
 				JLabel helpLabel = new JLabel(
 						"<html><body><p style=\"text-align:center;\">Este botón permite eliminar una bici de la base de datos.<p> <br> <p style=\"text-align:center;\" >Es necesario indicar el código de la bici.<p><body><html>");
 				helpDialog.getContentPane().add(helpLabel);
@@ -911,15 +1074,17 @@ public class Alquiler_bici_ampliado {
 		});
 
 		JButton buttonInfoAñadirUsuario = new JButton("");
+		buttonInfoAñadirUsuario.setOpaque(false);
+		buttonInfoAñadirUsuario.setBackground(new Color(0, 0, 0));
 		buttonInfoAñadirUsuario.setBorder(null);
 		buttonInfoAñadirUsuario.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoAñadirUsuario.setBounds(540, 316, 34, 33);
+		buttonInfoAñadirUsuario.setBounds(553, 313, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoAñadirUsuario);
 		buttonInfoAñadirUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
-				helpDialog.setSize(400, 300);
+				helpDialog.setSize(400, 200);
 				JLabel helpLabel = new JLabel(
 						"<html><body><p style=\"text-align:center;\">Este botón permite añadir un nuevo usuario a la base de datos.<p> <br> <p style=\"text-align:center;\" >Es necesario indicar el código y el nombre que tendrá el usuario.<p><body><html>");
 				helpDialog.getContentPane().add(helpLabel);
@@ -929,15 +1094,17 @@ public class Alquiler_bici_ampliado {
 		});
 
 		JButton buttonInfoEliminarUsuario = new JButton("");
+		buttonInfoEliminarUsuario.setOpaque(false);
+		buttonInfoEliminarUsuario.setBackground(new Color(0, 0, 0));
 		buttonInfoEliminarUsuario.setBorder(null);
 		buttonInfoEliminarUsuario.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoEliminarUsuario.setBounds(540, 390, 34, 33);
+		buttonInfoEliminarUsuario.setBounds(553, 383, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoEliminarUsuario);
 		buttonInfoEliminarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
-				helpDialog.setSize(400, 300);
+				helpDialog.setSize(400, 200);
 				JLabel helpLabel = new JLabel(
 						"<html><body><p style=\"text-align:center;\">Este botón permite eliminar un usuario de la base de datos.<p> <br> <p style=\"text-align:center;\" >Es necesario indicar el código del usuario.<p><body><html>");
 				helpDialog.getContentPane().add(helpLabel);
@@ -947,15 +1114,17 @@ public class Alquiler_bici_ampliado {
 		});
 
 		JButton buttonInfoMostrarUsuario = new JButton("");
+		buttonInfoMostrarUsuario.setOpaque(false);
+		buttonInfoMostrarUsuario.setBackground(new Color(0, 0, 0));
 		buttonInfoMostrarUsuario.setBorder(null);
 		buttonInfoMostrarUsuario.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoMostrarUsuario.setBounds(652, 230, 34, 33);
+		buttonInfoMostrarUsuario.setBounds(665, 231, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoMostrarUsuario);
 		buttonInfoMostrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
-				helpDialog.setSize(400, 300);
+				helpDialog.setSize(400, 200);
 				JLabel helpLabel = new JLabel(
 						"<html><body><p style=\"text-align:center;\">Este botón muestra todos los usuarios almacenados en la base de datos.<p><body><html>");
 				helpDialog.getContentPane().add(helpLabel);
@@ -965,17 +1134,27 @@ public class Alquiler_bici_ampliado {
 		});
 
 		JButton buttonInfoMostrarBici = new JButton("");
+		buttonInfoMostrarBici.setOpaque(false);
+		buttonInfoMostrarBici.setBackground(new Color(0, 0, 0));
 		buttonInfoMostrarBici.setBorder(null);
 		buttonInfoMostrarBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
-		buttonInfoMostrarBici.setBounds(128, 233, 34, 33);
+		buttonInfoMostrarBici.setBounds(141, 233, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoMostrarBici);
+		
+		JButton buttonInfoCambiarNombre = new JButton("");
+		buttonInfoCambiarNombre.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
+		buttonInfoCambiarNombre.setOpaque(false);
+		buttonInfoCambiarNombre.setBorder(null);
+		buttonInfoCambiarNombre.setBackground(Color.BLACK);
+		buttonInfoCambiarNombre.setBounds(553, 452, 34, 33);
+		frmBikeRenting.getContentPane().add(buttonInfoCambiarNombre);
 		buttonInfoMostrarBici.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
-				helpDialog.setSize(400, 300);
+				helpDialog.setSize(400, 200);
 				JLabel helpLabel = new JLabel(
-						"<html><body><p style=\"text-align:center;\">Este botón muestra todas las bicis almacenadas en la base de datos.<p><body><html>");
+						"<html><body><p style=\"text-align:center;\">Este botón permite cambiar el nombre del usuario.<p> <br> <p style=\"text-align:center;\" >Es necesario indicar el código del usuario y el nuevo nombre.<p><body><html>");
 				helpDialog.getContentPane().add(helpLabel);
 				helpDialog.setVisible(true);
 				helpLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -1020,6 +1199,9 @@ public class Alquiler_bici_ampliado {
 				btnDevolverBici.setFont(font);
 				btnEliminarBici.setFont(font);
 				btnAñadirBici.setFont(font);
+				btnCambiarNombre.setFont(font);
+				lblCodigoUsuarioCambiarNombre.setFont(font);
+				lblNuevoNombreUsuario.setFont(font);
 			}
 		});
 
