@@ -1157,6 +1157,18 @@ public class Alquiler_bici_ampliado {
 		buttonInfoMostrarBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
 		buttonInfoMostrarBici.setBounds(141, 233, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoMostrarBici);
+		buttonInfoMostrarBici.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JDialog helpDialog = new JDialog();
+				helpDialog.setTitle("Info");
+				helpDialog.setSize(400, 200);
+				JLabel helpLabel = new JLabel(
+						"<html><body><p style=\"text-align:center;\">Este botón muestra todas las bicis almacenadas en la base de datos.<p><body><html>");
+				helpDialog.getContentPane().add(helpLabel);
+				helpDialog.setVisible(true);
+				helpLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			}
+		});
 
 		JButton buttonInfoCambiarNombre = new JButton("");
 		buttonInfoCambiarNombre.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
@@ -1165,7 +1177,7 @@ public class Alquiler_bici_ampliado {
 		buttonInfoCambiarNombre.setBackground(Color.BLACK);
 		buttonInfoCambiarNombre.setBounds(553, 452, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoCambiarNombre);
-		buttonInfoMostrarBici.addActionListener(new ActionListener() {
+		buttonInfoCambiarNombre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JDialog helpDialog = new JDialog();
 				helpDialog.setTitle("Info");
