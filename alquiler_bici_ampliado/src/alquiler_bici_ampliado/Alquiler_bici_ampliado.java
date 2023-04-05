@@ -474,11 +474,11 @@ public class Alquiler_bici_ampliado {
 						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
 
 						comboBoxEliminarUsuario.removeAllItems();
-						
+
 						while (rs.next()) {
 							comboBoxEliminarUsuario.addItem(rs.getInt("id_usuario"));
 						}
-						
+
 						rs.close();
 					} catch (SQLException e3) {
 						e3.printStackTrace();
@@ -489,7 +489,7 @@ public class Alquiler_bici_ampliado {
 						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
 
 						comboBoxCambiarNombre.removeAllItems();
-						
+
 						while (rs.next()) {
 							comboBoxCambiarNombre.addItem(rs.getInt("id_usuario"));
 						}
@@ -499,7 +499,7 @@ public class Alquiler_bici_ampliado {
 					} catch (SQLException e3) {
 						e3.printStackTrace();
 					}
-					
+
 					JOptionPane.showMessageDialog(null, "Usuario añadido correctamente ◕‿◕", "Info",
 							JOptionPane.INFORMATION_MESSAGE);
 
@@ -805,6 +805,10 @@ public class Alquiler_bici_ampliado {
 
 		btnDevolverBici.setMnemonic(KeyEvent.VK_R);
 
+		/*
+		 * Este botón permite eliminar los usuarios de la base de datos.
+		 */
+
 		JButton btnEliminarUsuario = new JButton(" Eliminar Usuario");
 		btnEliminarUsuario.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/eliminarUsuario.png")));
 		btnEliminarUsuario.addActionListener(new ActionListener() {
@@ -852,7 +856,7 @@ public class Alquiler_bici_ampliado {
 						ResultSet rs = stmt.executeQuery("SELECT id_usuario FROM usuario WHERE id_usuario <> 0");
 
 						comboBoxCambiarNombre.removeAllItems();
-						
+
 						while (rs.next()) {
 							comboBoxCambiarNombre.addItem(rs.getInt("id_usuario"));
 						}
@@ -862,7 +866,7 @@ public class Alquiler_bici_ampliado {
 					} catch (SQLException e3) {
 						e3.printStackTrace();
 					}
-					
+
 					btnMostrarUsuario.doClick();
 					stmt.close();
 					JOptionPane.showMessageDialog(null, "Usuario eliminado corrctamente ◕‿◕", "Info",
@@ -881,6 +885,10 @@ public class Alquiler_bici_ampliado {
 		frmBikeRenting.getContentPane().add(btnEliminarUsuario);
 
 		btnEliminarUsuario.setMnemonic(KeyEvent.VK_E);
+
+		/*
+		 * Este botón permite eliminar las bicis de la base de datos.
+		 */
 
 		JButton btnEliminarBici = new JButton(" Eliminar Bici");
 		btnEliminarBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/eliminarBici.png")));
@@ -957,6 +965,10 @@ public class Alquiler_bici_ampliado {
 
 		btnEliminarBici.setMnemonic(KeyEvent.VK_M);
 
+		/**
+		 * Este botón permite cambiar el nombre de los usuarios.
+		 */
+
 		JButton btnCambiarNombre = new JButton(" Cambiar Nombre");
 		btnCambiarNombre.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/cambiarNombre.png")));
 		btnCambiarNombre.addActionListener(new ActionListener() {
@@ -965,16 +977,17 @@ public class Alquiler_bici_ampliado {
 				try {
 					Connection con = ConnectionSingleton.getConnection();
 					Statement stmt = con.createStatement();
-					PreparedStatement upd_pstmt = con.prepareStatement("UPDATE usuario SET nombre = ? WHERE id_usuario = ?");
+					PreparedStatement upd_pstmt = con
+							.prepareStatement("UPDATE usuario SET nombre = ? WHERE id_usuario = ?");
 
 					String nombre = txtNuevoNombre.getText();
-					
+
 					upd_pstmt.setString(1, nombre);
 					upd_pstmt.setInt(2, (int) comboBoxCambiarNombre.getSelectedItem());
 
-					upd_pstmt.executeUpdate();	
+					upd_pstmt.executeUpdate();
 					btnMostrarUsuario.doClick();
-					
+
 					stmt.close();
 					JOptionPane.showMessageDialog(null, "Nombre actualizado correctamente ◕‿◕", "Info",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -982,7 +995,7 @@ public class Alquiler_bici_ampliado {
 					JOptionPane.showMessageDialog(null, "No se puede cambiar el nombre", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 				txtNuevoNombre.setText("");
 
 			}
@@ -992,6 +1005,10 @@ public class Alquiler_bici_ampliado {
 		btnCambiarNombre.setBackground(UIManager.getColor("Button.darkShadow"));
 		btnCambiarNombre.setBounds(586, 455, 210, 60);
 		frmBikeRenting.getContentPane().add(btnCambiarNombre);
+
+		/**
+		 * Botones para proporcionar información al usuario.
+		 */
 
 		JButton buttonInfoAñadirBici = new JButton("");
 		buttonInfoAñadirBici.setOpaque(false);
@@ -1140,7 +1157,7 @@ public class Alquiler_bici_ampliado {
 		buttonInfoMostrarBici.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
 		buttonInfoMostrarBici.setBounds(141, 233, 34, 33);
 		frmBikeRenting.getContentPane().add(buttonInfoMostrarBici);
-		
+
 		JButton buttonInfoCambiarNombre = new JButton("");
 		buttonInfoCambiarNombre.setIcon(new ImageIcon(Alquiler_bici_ampliado.class.getResource("/img/info.png")));
 		buttonInfoCambiarNombre.setOpaque(false);
@@ -1160,6 +1177,10 @@ public class Alquiler_bici_ampliado {
 				helpLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			}
 		});
+
+		/**
+		 * Elementos que forman parte del menú.
+		 */
 
 		JMenuBar menuBar = new JMenuBar();
 		frmBikeRenting.setJMenuBar(menuBar);
